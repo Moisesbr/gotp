@@ -8,7 +8,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/grengojbo/gotp/models"
+	"github.com/Moisesbr/gotp/models"
 	"github.com/tarm/serial"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/charmap"
@@ -19,7 +19,7 @@ const (
 	// operation, a few rare specimens instead work at 9600.  If so, change
 	// this constant.  This will NOT make printing slower!  The physical
 	// print and feed mechanisms are the bottleneck, not the port speed.
-	BAUDRATE = 19200
+	BAUDRATE = 9600
 
 	// BYTETIME Number of microseconds to issue one byte to the printer.  11 bits
 	// (not 8) to accommodate idle, start and stop bits.  Idle time might

@@ -5,9 +5,9 @@ import (
 	"os"
 	"runtime"
 
-	"github.com/codegangsta/cli"
-	"github.com/grengojbo/gotp/escpos"
-	"github.com/grengojbo/gotp/models"
+	"github.com/Moisesbr/gotp/escpos"
+	"github.com/Moisesbr/gotp/models"
+	"github.com/urfave/cli"
 )
 
 var (
@@ -53,7 +53,7 @@ func runTest(c *cli.Context) {
 	if c.GlobalBool("verbose") {
 		fmt.Println("Print test page")
 	}
-	p := escpos.New(c.GlobalBool("debug"), "/dev/ttyAMA0", 19200)
+	p := escpos.New(c.GlobalBool("debug"), "/dev/ttyUSB0", 9600)
 	p.Verbose = c.GlobalBool("verbose")
 
 	p.Begin()
