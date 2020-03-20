@@ -574,7 +574,7 @@ func (e *Escpos) DoubleHeight(state bool) {
 	}
 }
 
-func (e *Escpos) setBarcodeHeight(val uint8) {
+func (e *Escpos) SetBarcodeHeight(val uint8) {
 	if val < 1 {
 		val = 1
 	} else if val > 255 {
@@ -659,7 +659,7 @@ func (e *Escpos) WriteNode(data []models.Printer, set *models.BarCodeOption) {
 			// if len(row.Size) > 0 {
 			// 	if msg, err :=  strconv.Atoi(row.Size); err == nil {
 			e.BarcodeChr(set.Chr)
-			e.setBarcodeHeight(set.Height)
+			e.SetBarcodeHeight(set.Height)
 			e.BarCode(set.Code, row.Text)
 			// 		e.
 			// 	}
@@ -724,7 +724,8 @@ func (e *Escpos) End() {
 
 // Cut - send cut
 func (e *Escpos) Cut() {
-	e.Write("\x1DVA0")
+	// e.Write("\x1DVA0")
+	e.WriteBytes([]byte{27, 105})
 }
 
 // Cash - send cash

@@ -13,18 +13,23 @@ func simpleprint() {
 	p.SetAlign("center")
 	p.SetFontSize("medium")
 	// p.SetBold(true)
-	p.WriteText("Seja bem vindo")
-	p.Linefeed()
-	p.WriteText("ao condominio")
+	p.WriteText("Seja bem vindo ao condominio")
 	p.Linefeed()
 	p.WriteText("Vila Di Capri")
-	// p.setBarcodeHeight(200)
-	p.Debug = false
+	p.Linefeed()
+	p.Linefeed()
+	p.SetBarcodeHeight(100)
+	// p.Debug = false
 	// p.WriteText("teste123456789")
 	p.BarCode("EAN13", "1234567")
-	// p.Linefeed()
-	p.Feed(1)
-	// p.Cut()
+	p.Linefeed()
+	p.Linefeed()
+	p.Linefeed()
+	p.Linefeed()
+	p.Linefeed()
+	p.Linefeed()
+	// p.Feed(16)
+	p.Cut()
 }
 
 func main() {
