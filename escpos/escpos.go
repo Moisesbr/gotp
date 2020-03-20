@@ -256,8 +256,8 @@ func (e *Escpos) wake() {
 	if e.Verbose {
 		fmt.Printf("func wake()\n")
 	}
-	e.timeoutSet(0)           // Reset timeout counter
-	e.WriteBytes([]byte{255}) // Wake
+	e.timeoutSet(0) // Reset timeout counter
+	// e.WriteBytes([]byte{255}) // Wake
 	if e.Firmware >= 264 {
 		//   delay(50);
 		time.Sleep(time.Millisecond * 50)

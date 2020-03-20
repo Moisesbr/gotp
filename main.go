@@ -11,6 +11,13 @@ func simpleprint() {
 	// p.SetCodePage("PC437")
 	// p.Linefeed()
 	p.SetAlign("center")
+	p.SetFontSize("medium")
+	// p.SetBold(true)
+	p.WriteText("Seja bem vindo")
+	p.Linefeed()
+	p.WriteText("ao condominio")
+	p.Linefeed()
+	p.WriteText("Vila Di Capri")
 	// p.setBarcodeHeight(200)
 	p.Debug = false
 	// p.WriteText("teste123456789")
