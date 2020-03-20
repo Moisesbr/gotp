@@ -328,7 +328,7 @@ func (e *Escpos) Begin() {
 	// writeBytes(ASCII_DC2, '#', (printBreakTime << 5) | printDensity);
 	// fmt.Println((e.printBreakTime << 5) | e.printDensity)
 	// e.Write(fmt.Sprintf("\x12#%v", (e.printBreakTime<<5)|e.printDensity))
-	e.Write(fmt.Sprintf("\x12#%c", (e.printBreakTime<<5)|e.printDensity))
+	// e.Write(fmt.Sprintf("\x12#%c", (e.printBreakTime<<5)|e.printDensity))
 
 	// Enable DTR pin if requested
 	// if(dtrPin < 255) {
@@ -634,8 +634,8 @@ func (e *Escpos) BarCode(code string, data string) {
 	e.WriteBytes([]byte{29, 119, 3})
 	//  Barcode type
 	e.Write(fmt.Sprintf("\x1D\x6B%c", a))
-	e.timeoutWait()
-	e.timeoutSet((int64(e.barcodeHeight) + 40) * e.dotPrintTime)
+	// e.timeoutWait()
+	// e.timeoutSet((int64(e.barcodeHeight) + 40) * e.dotPrintTime)
 	e.Write(data)
 	// super(Adafruit_Thermal, self).write(text)
 	e.prevByte = ASCIILF
