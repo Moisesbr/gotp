@@ -441,6 +441,65 @@ func (e *Escpos) WriteText(data string) (err error) {
 	return nil
 }
 
+// PrintBitmap set array bytes.
+func (e *Escpos) PrintBitmap(w int, h int, bitmap []byte, lineAtATime bool) error {
+	rowBytes := int(float64(w+7) / 8) // Round up to next byte boundary
+	rowBytesClipped := 0
+	if rowBytes >= 48 {
+		rowBytesClipped = 48 // 384 pixels max width
+	} else {
+		rowBytesClipped = rowBytes
+	}
+
+	// if lineAtATime is true, print bitmaps
+	// scanline-at-a-time (rather than in chunks).
+	// This tends to make for much cleaner printin
+	// (no feed gaps) on large images...but has the
+	// oppsite effect on small images that would fit
+	// in a single 'chunk', so use carefully!
+	maxChunkHeight := 0
+	if lineAtATime {
+		maxChunkHeight = 1
+	} else {
+		// TODO:maxChunkHeightを使うロジックおかしそうなのでなおす => timeoutSetの時間調整？
+		maxChunkHeight = 255
+		//maxChunkHeight = 127
+		//maxChunkHeight = h
+	}
+
+	i := 0
+	for rowStart := 0; rowStart < h; rowStart += maxChunkHeight {
+		chunkHeight := h - rowStart
+		if chunkHeight > maxChunkHeight {
+			chunkHeight = maxChunkHeight
+		}
+		fmt.Printf("rowBytes = %d, rowBytesClipped = %d\n", rowBytes, rowBytesClipped)
+		fmt.Printf("h = %d, chunkHeight = %d, rowStart = %d\n", h, chunkHeight, rowStart)
+
+		// Timeout wait happens here
+		// p.writeBytes([]byte{18, 42, byte(chunkHeight), byte(rowBytesClipped)})
+		// e.WriteBytes([]byte{27, 61, 1})
+		e.WriteBytes([]byte{18, 42, byte(chunkHeight), byte(rowBytesClipped)})
+		for y := 0; y < chunkHeight; y++ {
+			// fmt.Printf("  y = %d, i = %d\n", y, i)
+			for x := 0; x < rowBytesClipped; x++ {
+				// _, err := p.port.Write([]byte{bitmap[i]})
+				_, err := e.Serial.Write([]byte{bitmap[i]})
+				if err != nil {
+					return err
+				}
+				i++
+			}
+			i += rowBytes - rowBytesClipped
+		}
+		//ためしにコメントアウト => 解決した。けどどうすべきか。
+		//p.timeoutSet(float64(chunkHeight) * p.dotPrintTime)
+	}
+	e.prevByte = ASCIILF
+
+	return nil
+}
+
 // Flush - set \f
 func (e *Escpos) Flush() {
 	e.Write("\f")
