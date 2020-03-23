@@ -8,7 +8,6 @@ import (
 	"strings"
 	"time"
 
-	"github.com/Moisesbr/gotp/models"
 	"github.com/tarm/serial"
 	"golang.org/x/text/encoding"
 	"golang.org/x/text/encoding/charmap"
@@ -699,66 +698,6 @@ func (e *Escpos) BarCode(code string, data string) {
 	// super(Adafruit_Thermal, self).write(text)
 	e.prevByte = ASCIILF
 	e.Feed(2)
-}
-
-// WriteNode write a "node" to the printer
-func (e *Escpos) WriteNode(data []models.Printer, set *models.BarCodeOption) {
-	for _, row := range data {
-		// if i%20 == 0 {
-		// 	time.Sleep(1000 * time.Millisecond)
-		// }
-		if row.Line && len(row.Text) == 0 {
-			e.LinePrint()
-		} else if row.Image {
-			if e.Debug {
-				fmt.Println("TODO: add print image")
-			}
-		} else if row.BarCode {
-			e.SetAlign(row.Align)
-			// if len(row.Size) > 0 {
-			// 	if msg, err :=  strconv.Atoi(row.Size); err == nil {
-			e.BarcodeChr(set.Chr)
-			e.SetBarcodeHeight(set.Height)
-			e.BarCode(set.Code, row.Text)
-			// 		e.
-			// 	}
-			// }
-		} else if row.QrCode {
-			if e.Debug {
-				fmt.Println("TODO: add print QR code")
-			}
-		} else {
-			if row.Style == "bold" {
-				e.SetBold(true)
-			} else if row.Style == "small" {
-				e.SetSmall(true)
-			}
-			if row.Size != "normal" {
-				e.SetFontSize(row.Size)
-			}
-			e.SetAlign(row.Align)
-			e.WriteText(row.Text)
-
-			e.timeoutWait()
-			e.Linefeed()
-			e.timeoutWait()
-			e.SetAlign("left")
-			if row.Style == "bold" {
-				e.SetBold(false)
-			} else if row.Style == "small" {
-				e.SetSmall(false)
-			}
-			if row.Size != "normal" {
-				e.SetFontSize("normal")
-			}
-			if row.Line {
-				e.LinePrint()
-			}
-			if e.Debug {
-				fmt.Println(">>>>>>>>>>>>>>>>>>>>", row.Text)
-			}
-		}
-	}
 }
 
 // -------------- TODO --------------

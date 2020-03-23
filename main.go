@@ -5,9 +5,11 @@ import (
 
 	"github.com/Moisesbr/gotp/escpos"
 	"github.com/Moisesbr/gotp/imageutils"
+	"github.com/Moisesbr/gotp/qrcode"
 )
 
 func simpleprint() {
+	qrcode.Save("https://loja.3sr.com.br/", "generated_QR.tif")
 	p := escpos.New(false, "/dev/ttyUSB0", 9600)
 	p.Begin()
 	p.SetCodePage("PC437")
@@ -25,7 +27,7 @@ func simpleprint() {
 	p.Linefeed()
 	p.Linefeed()
 	// data, w, h, err := imageutils.ConvertFileToByte("qrcode128.tif")
-	data, w, h, err := imageutils.ConvertFileToByte("qrcode256_pad.tif")
+	data, w, h, err := imageutils.ConvertFileToByte("generated_QR.tif")
 	if err != nil {
 		log.Fatal(err)
 	}
